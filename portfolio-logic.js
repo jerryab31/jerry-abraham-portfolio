@@ -1,7 +1,7 @@
 // Function to find a generic male voice
 function getMaleVoice(voices) {
     // Look for voice names containing keywords often associated with male voices
-    const maleKeywords = ['male', 'man', 'zira', 'david', 'google us english', 'microsoft mark'];
+    const maleKeywords = ['male', 'man', 'david', 'mark', 'google us english', 'microsoft mark'];
     
     // Convert to lowercase for case-insensitive search
     const lowerVoices = voices.map(v => ({ 
@@ -103,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Ensure the button starts with the correct default label on load
     const voiceBtn = document.getElementById('voice-intro-btn');
     if (voiceBtn) {
+        // Set the correct initial state here
         voiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
         voiceBtn.addEventListener('click', handleVoiceIntro);
     }
