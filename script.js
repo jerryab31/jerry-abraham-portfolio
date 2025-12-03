@@ -1,13 +1,11 @@
-// Function to handle the Dramatic Voice Intro
+// Function to handle the Revised Voice Intro
 function handleVoiceIntro() {
-    const script = "Welcome. You’ve entered the RAG — a containerized, enterprise-grade system built and battle-tested. I am Jerry Abraham. I build AI that moves industries, simplifies complexity, and delivers results. Click through the portfolio — and prepare to be impressed.";
+    // New, professional voice script mentioning the variety of projects
+    const script = "Welcome. This portfolio demonstrates the convergence of business transformation, AI, Machine Learning, and Robotic Process Automation. I am Jerry Abraham. My focus is delivering measurable business outcomes across complex digital programs. Explore the full suite of projects below.";
     
     // Check for speech synthesis support
     if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(script);
-        
-        // Optional: Set voice, though browser defaults are usually okay
-        // utterance.voice = speechSynthesis.getVoices().find(v => v.lang.includes('en-GB') && v.name.includes('Google')); 
         utterance.rate = 0.9; // Slightly slower
         utterance.pitch = 1.0; 
         
@@ -15,40 +13,50 @@ function handleVoiceIntro() {
 
         if (speechSynthesis.speaking) {
             speechSynthesis.cancel();
-            btn.innerHTML = '<i class="fas fa-microphone"></i> Play Dramatic Intro';
+            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
         } else {
             speechSynthesis.speak(utterance);
             btn.innerHTML = '<i class="fas fa-microphone-slash"></i> Stop Intro';
 
             // Reset button text once speaking is done
             utterance.onend = () => {
-                btn.innerHTML = '<i class="fas fa-microphone"></i> Play Dramatic Intro';
+                btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
             };
         }
     } else {
-        alert("Text-to-Speech is not supported by your browser. Please upgrade to Chrome, Firefox, or Edge.");
+        alert("Text-to-Speech is not supported by your browser. Please upgrade to a modern browser.");
     }
 }
 
-// Function to handle scroll-triggered fade-in animations
+// Function to handle scroll-triggered fade-in animations AND Voice Button Activation
+let voiceTriggered = false; // Flag to ensure it only auto-plays once
+
 function handleScrollAnimations() {
     const elements = document.querySelectorAll('section');
     const windowHeight = window.innerHeight;
 
     elements.forEach(el => {
-        // Get the position of the element relative to the viewport
         const elementTop = el.getBoundingClientRect().top;
-
-        // If the element is within the viewport (e.g., 10% from the bottom)
         if (elementTop < windowHeight * 0.90) {
             el.classList.add('fade-in');
         }
     });
+
+    // New logic: Auto-trigger voice when user scrolls to the portfolio section for the first time
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+        const portfolioTop = portfolioSection.getBoundingClientRect().top;
+        // Trigger when the section is 30% into the viewport
+        if (!voiceTriggered && portfolioTop < windowHeight * 0.70) {
+            handleVoiceIntro();
+            voiceTriggered = true; 
+        }
+    }
 }
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initial check for elements already in view (e.g., the first section)
+    // 1. Initial check for elements already in view
     handleScrollAnimations(); 
 
     // 2. Add scroll event listener for continuous checks
