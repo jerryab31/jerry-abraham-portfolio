@@ -1,28 +1,42 @@
+let selectedVoice = null;
+
 // Function to find a specific target male voice
-function getSpecificMaleVoice(voices) {
+function setGlobalMaleVoice() {
+    const voices = speechSynthesis.getVoices();
+    
     // Target common high-quality male voices across platforms
     const targetVoices = [
-        'Google UK English Male', // Excellent general choice
-        'Microsoft David Desktop',  // Common on Windows
-        'Microsoft Mark', // Alternative on Windows
-        'David' // Generic, high probability male name
+        'Google UK English Male',
+        'Microsoft David Desktop',
+        'Microsoft Mark',
+        'David'
     ];
     
-    // Convert target voices to lowercase for case-insensitive matching
     const lowerTargetVoices = targetVoices.map(name => name.toLowerCase());
 
     for (let i = 0; i < voices.length; i++) {
         const voiceName = voices[i].name.toLowerCase();
         
-        // Check if the voice name includes any of our specific targets
         if (lowerTargetVoices.some(target => voiceName.includes(target))) {
-            return voices[i];
+            selectedVoice = voices[i]; // Set the global variable
+            console.log('Voice set to:', selectedVoice.name); // Check in browser console
+            return;
         }
     }
     
-    // Fallback: Return null, let the browser use its default (but the previous attempt failed)
-    return null;
+    console.log('Could not find specific male voice. Using browser default.');
 }
+
+// 1. Initial Voice Load Check: Set the voice immediately if available
+if ('speechSynthesis' in window) {
+    if (speechSynthesis.getVoices().length > 0) {
+        setGlobalMaleVoice();
+    } else {
+        // 2. Fallback Voice Load: Set the voice once loading is complete
+        speechSynthesis.onvoiceschanged = setGlobalMaleVoice;
+    }
+}
+
 
 // Function to handle the Revised Voice Intro
 function handleVoiceIntro() {
@@ -33,28 +47,15 @@ function handleVoiceIntro() {
     if ('speechSynthesis' in window) {
         
         const utterance = new SpeechSynthesisUtterance(script);
-        utterance.rate = 0.9; // Slightly slower
+        utterance.rate = 0.9; 
         utterance.pitch = 1.0; 
 
-        const voices = speechSynthesis.getVoices();
-        let selectedVoice = getSpecificMaleVoice(voices);
-
-        // Check if voices are loaded. If not, wait for the voiceschanged event.
-        if (voices.length === 0) {
-            speechSynthesis.onvoiceschanged = () => {
-                const updatedVoices = speechSynthesis.getVoices();
-                selectedVoice = getSpecificMaleVoice(updatedVoices);
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                }
-                speakLogic(utterance, btn);
-            };
-        } else {
-            if (selectedVoice) {
-                utterance.voice = selectedVoice;
-            }
-            speakLogic(utterance, btn);
+        // CRITICAL FIX: Use the globally selected male voice if it exists
+        if (selectedVoice) {
+            utterance.voice = selectedVoice;
         }
+        
+        speakLogic(utterance, btn);
 
     } else {
         alert("Text-to-Speech is not supported by your browser. Please upgrade to a modern browser.");
