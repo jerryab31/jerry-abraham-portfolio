@@ -13,7 +13,7 @@ function handleVoiceIntro() {
         
         if (speechSynthesis.speaking) {
             speechSynthesis.cancel();
-            // Ensure button reverts to default when stopped
+            // Button reverts to default when stopped
             btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
         } else {
             speechSynthesis.speak(utterance);
@@ -34,13 +34,10 @@ function handleVoiceIntro() {
     }
 }
 
-// Function to handle scroll-triggered fade-in animations
-let voiceTriggered = false; // Flag to ensure auto-play only happens once
-
+// Function to handle scroll-triggered fade-in animations ONLY
 function handleScrollAnimations() {
     const elements = document.querySelectorAll('section');
     const windowHeight = window.innerHeight;
-    const voiceBtn = document.getElementById('voice-intro-btn');
 
     elements.forEach(el => {
         const elementTop = el.getBoundingClientRect().top;
@@ -48,36 +45,22 @@ function handleScrollAnimations() {
             el.classList.add('fade-in');
         }
     });
-
-    // Logic: Auto-trigger voice only if the button is currently in the default 'Project Intro' state
-    const portfolioSection = document.getElementById('portfolio');
-    if (portfolioSection && voiceBtn) {
-        const portfolioTop = portfolioSection.getBoundingClientRect().top;
-        
-        // Trigger when the section is 70% into the viewport AND if the voice hasn't been triggered yet
-        if (!voiceTriggered && portfolioTop < windowHeight * 0.70) {
-            
-            // Set voiceTriggered flag immediately to prevent re-triggering on subsequent scrolls
-            voiceTriggered = true; 
-            
-            // Call the handler to start the voice
-            handleVoiceIntro();
-        }
-    }
+    // *** REMOVED AUTOPLAY VOICE LOGIC ***
 }
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Ensure the button starts with the correct label on load
+    
+    // 1. Ensure the button starts with the correct default label on load
     const voiceBtn = document.getElementById('voice-intro-btn');
     if (voiceBtn) {
         voiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
         voiceBtn.addEventListener('click', handleVoiceIntro);
     }
     
-    // 1. Initial check for elements already in view
+    // 2. Initial check for elements already in view for fade-in animations
     handleScrollAnimations(); 
 
-    // 2. Add scroll event listener for continuous checks
+    // 3. Add scroll event listener for continuous checks
     window.addEventListener('scroll', handleScrollAnimations);
 });
