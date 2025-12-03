@@ -1,38 +1,88 @@
+// Function to find a generic male voice
+function getMaleVoice(voices) {
+    // Look for voice names containing keywords often associated with male voices
+    const maleKeywords = ['male', 'man', 'zira', 'david', 'google us english', 'microsoft mark'];
+    
+    // Convert to lowercase for case-insensitive search
+    const lowerVoices = voices.map(v => ({ 
+        name: v.name.toLowerCase(), 
+        voice: v 
+    }));
+
+    for (let i = 0; i < lowerVoices.length; i++) {
+        const v = lowerVoices[i];
+        if (maleKeywords.some(keyword => v.name.includes(keyword))) {
+            return v.voice;
+        }
+    }
+    
+    // Fallback: If no male voice found, return null (browser will use default)
+    return null;
+}
+
 // Function to handle the Revised Voice Intro
 function handleVoiceIntro() {
-    // New, professional voice script mentioning the variety of projects
     const script = "Welcome. This portfolio demonstrates the convergence of business transformation, AI, Machine Learning, and Robotic Process Automation. I am Jerry Abraham. My focus is delivering measurable business outcomes across complex digital programs. Explore the full suite of projects below.";
     
     const btn = document.getElementById('voice-intro-btn');
     
-    // Check for speech synthesis support
     if ('speechSynthesis' in window) {
+        
         const utterance = new SpeechSynthesisUtterance(script);
         utterance.rate = 0.9; // Slightly slower
         utterance.pitch = 1.0; 
-        
-        if (speechSynthesis.speaking) {
-            speechSynthesis.cancel();
-            // Button reverts to default when stopped
-            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
-        } else {
-            speechSynthesis.speak(utterance);
-            // Change button text while speaking
-            btn.innerHTML = '<i class="fas fa-microphone-slash"></i> Stop Intro';
 
-            // Reset button text once speaking is done
-            utterance.onend = () => {
-                btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        // 1. Get the list of voices
+        const voices = speechSynthesis.getVoices();
+        
+        // 2. Select the male voice
+        let selectedVoice = getMaleVoice(voices);
+
+        // This check is necessary if voices aren't loaded immediately
+        if (voices.length === 0) {
+            speechSynthesis.onvoiceschanged = () => {
+                const updatedVoices = speechSynthesis.getVoices();
+                selectedVoice = getMaleVoice(updatedVoices);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                // Continue with speaking logic after voice setup
+                speakLogic(utterance, btn);
             };
-            // Handle error, just in case
-            utterance.onerror = () => {
-                btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
-            };
+        } else {
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            speakLogic(utterance, btn);
         }
+
     } else {
         alert("Text-to-Speech is not supported by your browser. Please upgrade to a modern browser.");
     }
 }
+
+// Helper function to contain the speaking and button logic
+function speakLogic(utterance, btn) {
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        // Button reverts to default when stopped
+        btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+    } else {
+        speechSynthesis.speak(utterance);
+        // Change button text while speaking
+        btn.innerHTML = '<i class="fas fa-microphone-slash"></i> Stop Intro';
+
+        // Reset button text once speaking is done
+        utterance.onend = () => {
+            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        };
+        // Handle error
+        utterance.onerror = () => {
+            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        };
+    }
+}
+
 
 // Function to handle scroll-triggered fade-in animations ONLY
 function handleScrollAnimations() {
@@ -45,7 +95,6 @@ function handleScrollAnimations() {
             el.classList.add('fade-in');
         }
     });
-    // *** REMOVED AUTOPLAY VOICE LOGIC ***
 }
 
 // Event Listeners
