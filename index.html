@@ -1,214 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jerry Abraham | AI Agent & Business Transformation</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
+// Function to find a generic male voice
+function getMaleVoice(voices) {
+    // Look for voice names containing keywords often associated with male voices
+    const maleKeywords = ['male', 'man', 'david', 'mark', 'google us english', 'microsoft mark'];
+    
+    // Convert to lowercase for case-insensitive search
+    const lowerVoices = voices.map(v => ({ 
+        name: v.name.toLowerCase(), 
+        voice: v 
+    }));
 
-    <header class="hero" id="hero">
-        <div class="hero-content">
-            <div class="profile-image-container">
-                <img src="assets/profile.jpg" alt="Jerry Abraham Profile Picture" class="profile-image">
-            </div>
-            <h1>JERRY ABRAHAM</h1>
-            <p class="subtitle">Business Transformation | Consulting | Lean Six Sigma | AI/GenAI | Data Science, ML | RPA</p>
-            <div class="contact-info">
-                <span><i class="fas fa-map-marker-alt"></i> Hyderabad, India</span>
-                <span><i class="fas fa-envelope"></i> jerry_ab@yahoo.com</span>
-                <span><i class="fas fa-phone"></i> +91-9167246589</span>
-            </div>
-        </div>
-    </header>
+    for (let i = 0; i < lowerVoices.length; i++) {
+        const v = lowerVoices[i];
+        if (maleKeywords.some(keyword => v.name.includes(keyword))) {
+            return v.voice;
+        }
+    }
+    
+    // Fallback: If no male voice found, return null (browser will use default)
+    return null;
+}
 
-    <main>
-        <section class="fade-in" id="about">
-            <h2><i class="fas fa-user-tie"></i> Executive Summary</h2>
-            <div class="summary-card">
-                <p>
-                    A **Senior Business Transformation Consultant** with 20+ years of experience in consulting, digital transformation, and process excellence across major BFSI firms (HSBC, UBS, Citi, HDFC Bank). Proven expertise in **Lean Six Sigma-led re-engineering**, stakeholder management, and GB/BB training.
-                </p>
-                <p>
-                    **Independent AI & Automation Practitioner** (5+ years) specializing in AI Agents (RAG), Data Science, Machine Learning, and RPA (UiPath). Delivered a production-ready Containerized RAG Agent Microservice and achieved a **Top 2.5% global rank** in an ML competition.
-                </p>
-            </div>
-        </section>
+// Function to handle the Revised Voice Intro
+function handleVoiceIntro() {
+    const script = "Welcome. This portfolio demonstrates the convergence of business transformation, AI, Machine Learning, and Robotic Process Automation. I am Jerry Abraham. My focus is delivering measurable business outcomes across complex digital programs. Explore the full suite of projects below.";
+    
+    const btn = document.getElementById('voice-intro-btn');
+    
+    if ('speechSynthesis' in window) {
+        
+        const utterance = new SpeechSynthesisUtterance(script);
+        utterance.rate = 0.9; // Slightly slower
+        utterance.pitch = 1.0; 
 
-        <section class="fade-in" id="skills">
-            <h2><i class="fas fa-cogs"></i> Core Competencies</h2>
-            <div class="skills-grid">
-                <div class="skill-card">Generative AI (RAG, LangChain/LangGraph, LLMs)</div>
-                <div class="skill-card">Business Transformation, Strategy & Consulting</div>
-                <div class="skill-card">Data Science & ML (Sklearn, SHAP, Optuna, Streamlit)</div>
-                <div class="skill-card">RPA Development (UiPath REFramework)</div>
-                <div class="skill-card">Lean Six Sigma & Customer Journey Re-engineering</div>
-                <div class="skill-card">Predictive Analytics & Explainable AI (XAI)</div>
-            </div>
-        </section>
+        // 1. Get the list of voices
+        const voices = speechSynthesis.getVoices();
+        
+        // 2. Select the male voice
+        let selectedVoice = getMaleVoice(voices);
 
-        <section class="fade-in" id="experience-summary">
-            <h2><i class="fas fa-briefcase"></i> Professional Experience Highlights</h2>
-            <div class="experience-list">
-                <ul>
-                    <li><i class="fas fa-star"></i> **Senior Consulting & Program Management:** Led **overall program governance** (scope, risk, benefits) for complex **platform enhancement and rollout** across multiple geographies. Program-managed Commercial Banking Transformation (13 countries) and technology solution delivery.</li>
-                    <li><i class="fas fa-lightbulb"></i> **Transformation Solution Design:** Designed **Target Operating Models** and optimized workflows, implementing RPA/OCR/predictive automation. Contributed to **RFP responses and consultative studies** for major banks. **Designed AI-driven predictive analytics solutions** in mortgage default servicing.</li>
-                    <li><i class="fas fa-chart-line"></i> **Process Excellence Leadership:** **Developed a Customer Value Delivery Program, leading to projected savings of $10M+** across insurance operations. Led strategic Lean Six Sigma consulting for global operations, designing and delivering GB/BB training.</li>
-                    <li><i class="fas fa-robot"></i> **Visionary Integration & Digital DNA:** The vision is **to drive organizational DNA change** by integrating **Lean Six Sigma** with **Agentic AI, RPA, Data Science, and ML** for hyper-automation and predictive capability. Focus is on delivering large and complex programs with digital and AI transformation solutions.</li>
-                </ul>
-            </div>
-        </section>
+        // This check is necessary if voices aren't loaded immediately
+        if (voices.length === 0) {
+            speechSynthesis.onvoiceschanged = () => {
+                const updatedVoices = speechSynthesis.getVoices();
+                selectedVoice = getMaleVoice(updatedVoices);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                // Continue with speaking logic after voice setup
+                speakLogic(utterance, btn);
+            };
+        } else {
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+            }
+            speakLogic(utterance, btn);
+        }
 
-        <section class="fade-in" id="portfolio">
-            <div class="project-header">
-                <h2><i class="fas fa-laptop-code"></i> AI, ML & RPA Portfolio</h2>
-                <button id="voice-intro-btn" class="cta-button"><i class="fas fa-microphone"></i> Project Intro</button>
-            </div>
-            
-            <div class="projects-grid">
-                
-                <div class="project-card">
-                    <h3>Containerized RAG Agent Microservice</h3>
-                    <p>Delivered instant, factual answers to complex banking policies, reducing compliance risk.</p>
-                    <div class="tech-tags">LangChain/LangGraph, FLAN-T5, FAISS, Docker, FastAPI</div>
-                    <div class="project-links">
-                        <a href="https://github.com/jerryab31/Dockerized-RAG-API-Gradio-UI-Project-Setup" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://www.youtube.com/playlist?list=PLhiWkJJJsJhuF-I_T_KCriyXL5OkJjJWV" target="_blank"><i class="fab fa-youtube"></i> Playlist</a>
-                    </div>
-                </div>
+    } else {
+        alert("Text-to-Speech is not supported by your browser. Please upgrade to a modern browser.");
+    }
+}
 
-                <div class="project-card">
-                    <h3>Credit Card Fraud Detection Model</h3>
-                    <p>LightGBM + Optuna, SMOTE, SHAP implementation. Achieved AUPRC: 0.85+ with Streamlit deployment.</p>
-                    <div class="tech-tags">LightGBM, Optuna, SHAP, Streamlit</div>
-                    <div class="project-links">
-                        <a href="https://github.com/jerryab31/Credit-Card-Fraud-Detection" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://github.com/jerryab31/Credit-Card-Fraud-Detection" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
-                    </div>
-                </div>
+// Helper function to contain the speaking and button logic
+function speakLogic(utterance, btn) {
+    if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+        // Button reverts to default when stopped
+        btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+    } else {
+        speechSynthesis.speak(utterance);
+        // Change button text while speaking
+        btn.innerHTML = '<i class="fas fa-microphone-slash"></i> Stop Intro';
 
-                <div class="project-card">
-                    <h3>Customer Churn Prediction</h3>
-                    <p>LightGBM model with SHAP analysis and custom thresholding. Achieved AUC: ~0.84+.</p>
-                    <div class="tech-tags">LightGBM, SHAP, ColumnTransformer, AUC 0.84+</div>
-                    <div class="project-links">
-                        <a href="https://github.com/jerryab31/Customer-Churn-Prediction" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://customerchurn-prediction-jerryab31.streamlit.app/" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <h3>Credit Risk Scoring Model</h3>
-                    <p>Home loan default model using LightGBM + Optuna + SHAP for explainable risk assessment. AUC: ~0.75.</p>
-                    <div class="tech-tags">LightGBM, Optuna, SHAP, AUC 0.75</div>
-                    <div class="project-links">
-                        <a href="https://github.com/jerryab31/credit-risk-streamlit" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://credit-risk-model-jerryab31.streamlit.app/" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
-                    </div>
-                </div>
+        // Reset button text once speaking is done
+        utterance.onend = () => {
+            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        };
+        // Handle error
+        utterance.onerror = () => {
+            btn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        };
+    }
+}
 
-                <div class="project-card">
-                    <h3>Global ML Competition Rank</h3>
-                    <p>Multi-label XGBoost model for Vaccine Prediction. Achieved **Top 2.5% globally** (AUC: 0.8628) in a DrivenData competition.</p>
-                    <div class="tech-tags">XGBoost, Multi-label, AUC: 0.8628</div>
-                    <div class="project-links">
-                        <a href="https://github.com/jerryab31/h1n1_seasonal_vaccine" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                        <a href="https://github.com/jerryab31/h1n1_seasonal_vaccine/blob/main/Rank177out7450.png" target="_blank"><i class="fas fa-medal"></i> Ranking</a>
-                    </div>
-                </div>
 
-                <div class="project-card">
-                    <h3>UiPath REFramework Demo Bot</h3>
-                    <p>Robust enterprise-grade bot showcasing Orchestrator queues, assets, exception handling, and logging.</p>
-                    <div class="tech-tags">UiPath, REFramework, Orchestrator</div>
-                    <div class="project-links">
-                        <a href="https://youtu.be/7fPyi81NY74" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
-                    </div>
-                </div>
+// Function to handle scroll-triggered fade-in animations ONLY
+function handleScrollAnimations() {
+    const elements = document.querySelectorAll('section');
+    const windowHeight = window.innerHeight;
 
-                <div class="project-card">
-                    <h3>Invoice Extraction Bot</h3>
-                    <p>Extracts and uploads filtered invoices via dynamic selectors (completion under 47 seconds).</p>
-                    <div class="tech-tags">UiPath, Dynamic Selectors</div>
-                    <div class="project-links">
-                        <a href="https://youtu.be/msx0Xek9tuY" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
-                    </div>
-                </div>
+    elements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight * 0.90) {
+            el.classList.add('fade-in');
+        }
+    });
+}
 
-                 <div class="project-card">
-                    <h3>Form Filling Bot</h3>
-                    <p>Bot developed to perform attended or unattended web form data entry based on input excel files.</p>
-                    <div class="tech-tags">UiPath, Data Scraping, Attended/Unattended</div>
-                    <div class="project-links">
-                        <a href="https://www.youtube.com/watch?v=xrOIwKnyZmk" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
-                    </div>
-                </div>
+// Event Listeners
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Ensure the button starts with the correct default label on load
+    const voiceBtn = document.getElementById('voice-intro-btn');
+    if (voiceBtn) {
+        // Set the correct initial state here
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
+        voiceBtn.addEventListener('click', handleVoiceIntro);
+    }
+    
+    // 2. Initial check for elements already in view for fade-in animations
+    handleScrollAnimations(); 
 
-            </div>
-            
-            <h3 class="publications-title"><i class="fas fa-file-alt"></i> Publications & Technical Content</h3>
-            <div class="publications-list">
-                <a href="https://www.youtube.com/watch?v=5iIXPDwzvZk" target="_blank"><i class="fab fa-youtube"></i> RAG + GenAI Architecture Explainer</a> |
-                <a href="https://www.youtube.com/watch?v=s08A72X__Hg" target="_blank"><i class="fab fa-youtube"></i> BERT Transformer Internals Explainer</a> |
-                <a href="https://www.linkedin.com/in/jerry-a-88632b1b/" target="_blank"><i class="fab fa-linkedin"></i> White Paper: Robot-Human Collaborative Workforce (Refer TCS Section in LinkedIn)</a>
-            </div>
-        </section>
-
-        <section class="fade-in" id="tech-edu">
-            <div class="flex-container">
-                <div class="col-left">
-                    <h2><i class="fas fa-graduation-cap"></i> Education & Training</h2>
-                    <ul>
-                        <li>**Masters in Financial Management (MFM)** – JBIMS, Mumbai University</li>
-                        <li>**B.E. in Mechanical Engineering** – Bharathiar University</li>
-                        <li>**Certified Lean Six Sigma Black Belt** (2009) | **Master Black Belt Trained** (2012)</li>
-                        <li>**RPA Development Training (UiPath)** – 2020-2021</li>
-                        <li>**Applied AI, Data Science & Machine Learning** (2022-2025)</li>
-                        <li>Certified ISO 9001:2000 Lead Auditor | Agile Product Owner Training</li>
-                    </ul>
-                </div>
-                <div class="col-right">
-                    <h2><i class="fas fa-terminal"></i> Tools & Tech Stack</h2>
-                    <div class="tech-icons">
-                        <i class="fab fa-python" title="Python"></i>
-                        <i class="fas fa-brain" title="Machine Learning & Deep Learning"></i>
-                        <i class="fas fa-chart-bar" title="Data Analysis & Visualization"></i>
-                        <i class="fas fa-server" title="Deployment & APIs"></i>
-                        <i class="fab fa-docker" title="Containerization"></i>
-                        <i class="fas fa-search" title="GenAI & Vector Search"></i>
-                        <i class="fas fa-robot" title="RPA Tools"></i>
-                        <i class="fab fa-github" title="Version Control & IDEs"></i>
-                    </div>
-                    <p class="tech-details">
-                        **Python** <br>
-                        Scikit-learn, XGBoost, LightGBM, LSTM, Prophet, ARIMA, SVM, KNN, Kmeans, SHAP, Optuna, GridSearchCV <br>
-                        Pandas, NumPy, Matplotlib, Seaborn <br>
-                        Streamlit, Flask, FastAPI, Gradio <br>
-                        FAISS, LangChain, LangGraph <br>
-                        Docker, Docker Compose, Ngrok <br>
-                        MySQL <br>
-                        UiPath <br>
-                        GitHub, Google Colab, PyCharm, Jupyter Notebook, OBS Studio
-                    </p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <h2>Get In Touch</h2>
-        <div class="social-links">
-            <a href="#"><i class="fas fa-envelope"></i> jerry_ab@yahoo.com</a>
-            <a href="https://www.linkedin.com/in/jerry-a-88632b1b/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
-            <a href="https://github.com/jerryab31" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-            <a href="https://share.streamlit.io/user/jerryab31" target="_blank"><i class="fas fa-chart-area"></i> Streamlit</a>
-        </div>
-        <p>&copy; 2025 Jerry Abraham. Built for impact.</p>
-    </footer>
-
-    <script src="script.js?v=7"></script> 
-</body>
-</html>
+    // 3. Add scroll event listener for continuous checks
+    window.addEventListener('scroll', handleScrollAnimations);
+});
