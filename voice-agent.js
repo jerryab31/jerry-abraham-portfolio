@@ -19,12 +19,9 @@ function setGlobalMaleVoice() {
         
         if (lowerTargetVoices.some(target => voiceName.includes(target))) {
             selectedVoice = voices[i]; // Set the global variable
-            console.log('Voice set to:', selectedVoice.name); // Check in browser console
             return;
         }
     }
-    
-    console.log('Could not find specific male voice. Using browser default.');
 }
 
 // 1. Initial Voice Load Check: Set the voice immediately if available
@@ -97,16 +94,12 @@ function handleScrollAnimations() {
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Ensure the button starts with the correct default label on load
     const voiceBtn = document.getElementById('voice-intro-btn');
     if (voiceBtn) {
         voiceBtn.innerHTML = '<i class="fas fa-microphone"></i> Project Intro';
         voiceBtn.addEventListener('click', handleVoiceIntro);
     }
     
-    // 2. Initial check for elements already in view for fade-in animations
     handleScrollAnimations(); 
-
-    // 3. Add scroll event listener for continuous checks
     window.addEventListener('scroll', handleScrollAnimations);
 });
