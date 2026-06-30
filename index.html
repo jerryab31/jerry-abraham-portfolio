@@ -7,11 +7,20 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta property="og:title" content="Jerry Abraham | AI & Business Transformation">
+    <meta property="og:description" content="Official portfolio site showcasing 20+ years of digital strategy, AI, ML, RPA and business transformation projects.">
+    <meta property="og:image" content="https://jerryab31.github.io/jerry-abraham-portfolio/assets/linkedin-image.jpg">
+    <meta property="og:url" content="https://jerryab31.github.io/jerry-abraham-portfolio/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 
     <header class="hero" id="hero">
         <div class="hero-content">
+            <div class="profile-image-container">
+                <img src="assets/profile.jpg" alt="Jerry Abraham Profile Picture" class="profile-image">
+            </div>
             <h1>JERRY ABRAHAM</h1>
             <p class="subtitle">Senior Business Consultant | AI Product Builder</p>
             <div class="contact-info">
@@ -43,37 +52,114 @@
         </section>
 
         <section class="fade-in" id="portfolio">
-            <h2><i class="fas fa-laptop-code"></i> Projects</h2>
+            <div class="project-header">
+                <h2><i class="fas fa-laptop-code"></i> AI, ML & RPA Portfolio</h2>
+                <button id="voice-intro-btn" class="cta-button"><i class="fas fa-microphone"></i> Project Intro</button>
+            </div>
+            
             <div class="projects-grid">
                 <div class="project-card">
                     <h3>RCM Intellisense — AI-Powered Revenue Cycle Decision Intelligence</h3>
-                    <p>Cloud-native AI platform for healthcare claims optimization, denial prevention, and revenue protection. Integrated ML, Explainable AI, and agentic workflows.</p>
+                    <p>A full-stack AI system for end-to-end pre-submission denial intelligence. Includes compliance pre-screening, ML-based denial risk prediction, CARC classification, and LLM-driven fix guidance.</p>
+                    <div class="tech-tags">FastAPI, LangGraph, Pinecone, LightGBM, XGBoost, GCP Cloud Run</div>
+                    <div class="project-links">
+                        <a href="https://lnkd.in/gAqgNEEP" target="_blank"><i class="fab fa-linkedin"></i> View Launch Post</a>
+                    </div>
                 </div>
                 
                 <div class="project-card">
                     <h3>Meta Llama 3 – Agentic Banking RAG System</h3>
-                    <p>Multi-agent LangGraph system using Meta Llama 3 for complex banking queries and financial reasoning.</p>
+                    <p>Designed a multi-agent LangGraph (Planner–Worker–Synthesizer) system using Meta Llama 3 for complex banking queries and financial reasoning.</p>
+                    <div class="tech-tags">Meta Llama 3, LangGraph, FAISS, FastAPI, ngrok</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/Agentic-AI-RAG-with-Meta-Llama-3-FAISS" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://www.youtube.com/playlist?list=PLhiWkJJJsJhvYL5Wom-93YE3AUkKW8EbQ" target="_blank"><i class="fab fa-youtube"></i> Playlist</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Containerized RAG Agent Microservice</h3>
+                    <p>Delivered instant, factual answers to complex banking policies, reducing compliance risk.</p>
+                    <div class="tech-tags">LangChain/LangGraph, FLAN-T5, FAISS, Docker, FastAPI</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/Dockerized-RAG-API-Gradio-UI-Project-Setup" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://www.youtube.com/playlist?list=PLhiWkJJJsJhuF-I_T_KCriyXL5OkJjJWV" target="_blank"><i class="fab fa-youtube"></i> Playlist</a>
+                    </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>Quantized LLM Chatbot Interface</h3>
-                    <p>Optimized LLM interface utilizing Llama 3.1-8B and Unsloth 4-bit quantization for efficient performance.</p>
+                    <h3>Credit Card Fraud Detection Model</h3>
+                    <p>LightGBM + Optuna, SMOTE, SHAP implementation. Achieved AUPRC: 0.85+ with Streamlit deployment.</p>
+                    <div class="tech-tags">LightGBM, Optuna, SHAP, Streamlit</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/Credit-Card-Fraud-Detection" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://credit-card-fraud-detection-jerryab31.streamlit.app/" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
+                    </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>Friends TV Series Multimodal Intelligence</h3>
-                    <p>Multimodal analysis system combining DistilBERT, wav2vec 2.0, and Vision Transformers for character and emotion detection.</p>
+                    <h3>Customer Churn Prediction</h3>
+                    <p>LightGBM model with SHAP analysis and custom thresholding. Achieved AUC: ~0.84+.</p>
+                    <div class="tech-tags">LightGBM, SHAP, ColumnTransformer, AUC 0.84+</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/Customer-Churn-Prediction" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://customerchurn-prediction-jerryab31.streamlit.app/" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>Credit Risk Scoring Model</h3>
+                    <p>Home loan default model using LightGBM + Optuna + SHAP for explainable risk assessment. AUC: ~0.75.</p>
+                    <div class="tech-tags">LightGBM, Optuna, SHAP, AUC 0.75</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/credit-risk-streamlit" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://credit-risk-model-jerryab31.streamlit.app/" target="_blank"><i class="fas fa-rocket"></i> Live App</a>
+                    </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>Video Action Detector</h3>
-                    <p>Action recognition system for complex video analysis and classification.</p>
+                    <h3>Global ML Competition Rank</h3>
+                    <p>Multi-label XGBoost model for Vaccine Prediction. Achieved <b>Top 2.5% globally</b> (AUC: 0.8628) in a DrivenData competition.</p>
+                    <div class="tech-tags">XGBoost, Multi-label, AUC: 0.8628</div>
+                    <div class="project-links">
+                        <a href="https://github.com/jerryab31/h1n1_seasonal_vaccine" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/jerryab31/h1n1_seasonal_vaccine/blob/main/Rank177out7450.png" target="_blank"><i class="fas fa-medal"></i> Ranking</a>
+                    </div>
                 </div>
 
                 <div class="project-card">
-                    <h3>BirdCLEF Kaggle Competition</h3>
-                    <p>Bird song classification project utilizing pseudo-labeling and advanced audio signal processing strategies.</p>
+                    <h3>UiPath REFramework Demo Bot</h3>
+                    <p>Robust enterprise-grade bot showcasing Orchestrator queues, assets, exception handling, and logging.</p>
+                    <div class="tech-tags">UiPath, REFramework, Orchestrator</div>
+                    <div class="project-links">
+                        <a href="https://youtu.be/7fPyi81NY74" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
+                    </div>
                 </div>
+
+                <div class="project-card">
+                    <h3>Invoice Extraction Bot</h3>
+                    <p>Extracts and uploads filtered invoices via dynamic selectors (completion under 47 seconds).</p>
+                    <div class="tech-tags">UiPath, Dynamic Selectors</div>
+                    <div class="project-links">
+                        <a href="https://youtu.be/msx0Xek9tuY" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
+                    </div>
+                </div>
+
+                 <div class="project-card">
+                    <h3>Form Filling Bot</h3>
+                    <p>Bot developed to perform attended or unattended web form data entry based on input excel files.</p>
+                    <div class="tech-tags">UiPath, Data Scraping, Attended/Unattended</div>
+                    <div class="project-links">
+                        <a href="https://www.youtube.com/watch?v=xrOIwKnyZmk" target="_blank"><i class="fab fa-youtube"></i> Video Demo</a>
+                    </div>
+                </div>
+            </div>
+            
+            <h3 class="publications-title"><i class="fas fa-file-alt"></i> Publications & Technical Content</h3>
+            <div class="publications-list">
+                <a href="https://www.youtube.com/watch?v=5iIXPDwzvZk" target="_blank"><i class="fab fa-youtube"></i> RAG + GenAI Architecture Explainer</a> |
+                <a href="https://www.youtube.com/watch?v=s08A72X__Hg" target="_blank"><i class="fab fa-youtube"></i> BERT Transformer Internals Explainer</a> |
+                <a href="https://www.linkedin.com/in/jerry-a-88632b1b/" target="_blank"><i class="fab fa-linkedin"></i> White Paper: Robot-Human Collaborative Workforce</a>
             </div>
         </section>
 
@@ -82,7 +168,7 @@
             <ul>
                 <li><strong>Masters in Financial Management (MFM)</strong> – JBIMS, Mumbai University (2005-2008)</li>
                 <li><strong>B.E. in Mechanical Engineering</strong> – Bharathiar University (1994-1998)</li>
-                <li><strong>Certified Lean Six Sigma Black Belt</strong> (2009) | <strong>Master Black Belt Trained</strong> (2012) | <strong>Certified ISO 9001:2000 Lead Auditor</strong> – BVQI (2001)</li>
+                <li><strong>Certified Lean Six Sigma Black Belt</strong> (2009) | <strong>Master Black Belt Trained</strong> (2012) | <strong>Certified ISO 9001:2000 Lead Auditor</strong> (2001)</li>
                 <li><strong>Agile Product Owner Training</strong> – HSBC (2019) | <strong>Design Thinking for Innovation</strong> – TCS (2016)</li>
                 <li><strong>Robotic Process Automation</strong> – UiPath (2020-2021)</li>
                 <li><strong>Applied AI, Machine Learning, Generative AI & Agentic Systems</strong> (2022–Present)</li>
@@ -91,13 +177,20 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Jerry Abraham.</p>
+        <h2>Get In Touch</h2>
+        <div class="social-links">
+            <a href="#"><i class="fas fa-envelope"></i> jerry_ab@yahoo.com</a>
+            <a href="https://www.linkedin.com/in/jerry-a-88632b1b/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://github.com/jerryab31" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+        </div>
+        <p>&copy; 2026 Jerry Abraham. Built for impact.</p>
     </footer>
 
+    <script src="voice-agent.js?v=10"></script>
     <script>
         console.log("--- DEBUG START: Portfolio Sync ---");
         console.log("Status: All projects restored.");
-        console.log("Status: Education & Prof Dev aligned with resume.");
+        console.log("Status: Header, Summary, Competencies, and Education updated.");
         console.log("Status: Tools & Tech section removed.");
         console.log("--- DEBUG END ---");
     </script>
